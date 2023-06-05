@@ -10,3 +10,7 @@ output "instance_id_web" {
 output "instance_web_public_dns" {
     value = aws_instance.web.*.public_dns
 }
+
+output "load_balancer_dns_name" {
+    value = aws_lb.weblb-front.dns_name
+}

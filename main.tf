@@ -67,10 +67,10 @@ resource "aws_security_group" "http-sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     egress {
-        cidr_blocks = ["0.0.0.0/0"]
         from_port   = "0"
-        protocol    = "-1"
         to_port     = "0"
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]  
     }
     tags = {
         "Name" = "RGAProj-SG"
@@ -91,13 +91,3 @@ resource "aws_instance" "web" {
     }
     user_data = file("user_data/user_data.tpl")
 }
-
-# # For web-2
-# resource "aws_instance" "web-2" {
-#     ami             = var.ami
-#     instance_type   = var.instance_type
-
-#     tags = {
-#         Name = "RGAProj-HA-2"
-#     }
-# }
