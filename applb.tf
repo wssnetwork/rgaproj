@@ -27,7 +27,7 @@ resource "aws_lb" "weblb-front" {
     name               = "RGAProj-weblb-front"
     internal           = false
     load_balancer_type = "application"
-    security_groups    = [aws_security_group.http-sg.id]
+    security_groups    = [aws_security_group.weblb-sg.id]
     subnets            = [for subnet in aws_subnet.vpc-private-subnet : subnet.id]
 
     enable_deletion_protection = false

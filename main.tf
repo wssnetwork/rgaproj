@@ -53,14 +53,38 @@ resource "aws_route" "vpc-internet-route" {
     gateway_id             = aws_internet_gateway.vpc-ig.id
 }
 
-# Create Security Group
+# Create Security Group Web
 resource "aws_security_group" "http-sg" {
-    name        = "allow_http_access"
+    name        = "allow_internal_access"
     description = "allow inbound http traffic"
     vpc_id      = aws_vpc.vpc.id
 
     ingress {
-        description = "from my ip range"
+        description = "from my internal ip range"
+        from_port   = "80"
+        to_port     = "80"
+        protocol    = "tcp"
+        cidr_blocks = [aws_vpc.vpc.cidr_block]
+    }
+    egress {
+        from_port   = "0"
+        to_port     = "0"
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]  
+    }
+    tags = {
+        "Name" = "RGAProj-SG-Internal"
+    }
+}
+
+# Create Security Group App LB
+resource "aws_security_group" "weblb-sg" {
+    name        = "allow_internet_access"
+    description = "allow inbound http traffic"
+    vpc_id      = aws_vpc.vpc.id
+
+    ingress {
+        description = "from internet ip range"
         from_port   = "80"
         to_port     = "80"
         protocol    = "tcp"
@@ -70,10 +94,10 @@ resource "aws_security_group" "http-sg" {
         from_port   = "0"
         to_port     = "0"
         protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]  
+        cidr_blocks = ["0.0.0.0/0"]
     }
     tags = {
-        "Name" = "RGAProj-SG"
+        "Name" = "RGAProj-SG-Internet"
     }
 }
 
