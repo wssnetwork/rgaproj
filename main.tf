@@ -32,7 +32,8 @@ resource "aws_route_table" "vpc-rt" {
 
 # Associate Subnet with Route Table
 resource "aws_route_table_association" "vpc-rt-subnet" {
-    subnet_id       = aws_subnet.vpc-private-subnet.id
+    count           = length(var.subnet_cidr_private)
+    subnet_id       = element(aws_subnet.vpc-private-subnet.*.id, count.index)
     route_table_id  = aws_route_table.vpc-rt.id
 }
 
