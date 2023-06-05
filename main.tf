@@ -89,6 +89,7 @@ resource "aws_instance" "web" {
     tags = {
         Name = "RGAProj-Web-${count.index + 1}"
     }
+    user_data = file("user_data/user_data.tpl")
 }
 
 # # For web-2
