@@ -10,14 +10,26 @@ variable "instance_type" {
     default     = "t2.micro"
 }
 
-variable "name_tag-1" {
+variable "region" {
     type        = string
-    description = "Name of the EC2 instance HA 1"
-    default     = "RGAProj-HA-1"
+    description = "Provider region"
+    default     = "ap-southeast-1"
 }
 
-variable "name_tag-2" {
+variable "availability_zone" {
+    type        = list(any)
+    description = "Availability zones"
+    default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+}
+
+variable "vpc_cidr" {
     type        = string
-    description = "Name of the EC2 instance HA 2"
-    default     = "RGAProj-HA-2"
+    description = "VPC CIDR block"
+    default     = "10.0.0.0/26"
+}
+
+variable "subnet_cidr_private" {
+    type        = list(any)
+    description = "cidr blocks for the private subnets"
+    default     = ["10.0.0.0/28", "10.0.0.16/28", "10.0.0.32/28"]
 }
