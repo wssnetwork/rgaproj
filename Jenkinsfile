@@ -1,17 +1,14 @@
 pipeline {
-    // agent { docker { image 'python:3.10.7-alpine' } }
-    // stages {
-    //     stage('build') {
-    //         steps {
-    //             sh 'python --version'
-    //         }
-    //     }
-    // }
     agent any
     stages {
-        stage('test terraform') {
-            steps{
-                sh 'terraform --version'
+        stage('Terraform init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform action') {
+            steps {
+                sh 'terraform ${action} --auto-approve'
             }
         }
     }
