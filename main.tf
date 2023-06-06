@@ -66,6 +66,13 @@ resource "aws_security_group" "http-sg" {
         protocol    = "tcp"
         cidr_blocks = [aws_vpc.vpc.cidr_block]
     }
+    ingress {
+        description = "from my internal ip range"
+        from_port   = "22"
+        to_port     = "22"
+        protocol    = "tcp"
+        cidr_blocks = [aws_vpc.vpc.cidr_block]
+    }
     egress {
         from_port   = "0"
         to_port     = "0"
