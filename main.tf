@@ -126,6 +126,7 @@ resource "aws_instance" "web" {
         Name = "RGAProj-Web-${count.index + 1}"
     }
     metadata_options {
+        http_endpoint = "enabled"
         http_tokens = "required"
     } 
     root_block_device {
