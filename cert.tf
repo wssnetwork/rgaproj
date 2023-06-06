@@ -1,6 +1,9 @@
 resource "aws_acm_certificate" "alb-cert" {
-    domain_name       = "example.com"
-    validation_method = "DNS"
+    domain_name       = "rgaproj.local"
+
+    lifecycle {
+        create_before_destroy = true
+    }
 
     tags = {
         Name = "example.com SSL certificate"
