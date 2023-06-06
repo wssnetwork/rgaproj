@@ -1,6 +1,28 @@
 pipeline {
     agent any
     stages {
+        stage('Tfsec scan') {
+            agent {
+                docker {
+                    image 'aquasec/tfsec:latest'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'tfsec .'
+            }
+        }
+        stage('Terrascan scan') {
+            agent {
+                docker {
+                    image 'tenable/terrascan:latest'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'terrascan scan .'
+            }
+        }       
         stage('Terraform init') {
             steps {
                 sh 'terraform init'
