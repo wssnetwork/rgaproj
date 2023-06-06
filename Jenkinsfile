@@ -11,18 +11,7 @@ pipeline {
             steps {
                 sh 'tfsec . --no-color'
             }
-        }
-        // stage('Terrascan scan') {
-        //     agent {
-        //         docker {
-        //             image 'tenable/terrascan:latest'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         sh 'terrascan scan .'
-        //     }
-        // }       
+        }      
         stage('Terraform init') {
             steps {
                 sh 'terraform init'
