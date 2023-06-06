@@ -95,8 +95,8 @@ resource "aws_security_group" "weblb-sg" {
 
     ingress {
         description = "from internet ip range"
-        from_port   = "443"
-        to_port     = "443"
+        from_port   = "80"
+        to_port     = "80"
         protocol    = "tcp"
         # ignore tfsec findings as this setting is required
         cidr_blocks = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-ingress-sgr

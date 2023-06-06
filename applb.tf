@@ -41,8 +41,9 @@ resource "aws_lb" "weblb-front" {
 
 resource "aws_lb_listener" "weblb-front-end" {
     load_balancer_arn = aws_lb.weblb-front.arn
-    port              = "443"
-    protocol          = "HTTPS"
+    port              = "80"
+    # ignore tfsec findings as this is just sample project
+    protocol          = "HTTP" #tfsec:ignore:aws-elb-http-not-used
 
     default_action {
         type             = "forward"
