@@ -25,7 +25,8 @@ resource "aws_lb_target_group_attachment" "weblbg-attach" {
 
 resource "aws_lb" "weblb-front" {
     name               = "RGAProj-weblb-front"
-    internal           = false
+    # ignore tfsec findings as this app lb facing internet
+    internal           = false #tfsec:ignore:aws-elb-alb-not-public
     load_balancer_type = "application"
     security_groups    = [aws_security_group.weblb-sg.id]
     subnets            = [for subnet in aws_subnet.vpc-private-subnet : subnet.id]
