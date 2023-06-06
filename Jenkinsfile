@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Terraform action') {
             steps {
-                sh 'terraform ${action} --auto-approve --no-color'
+                sh 'terraform ${action} --auto-approve'
             }
         }
     }
