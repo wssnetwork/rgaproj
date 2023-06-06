@@ -60,20 +60,21 @@ resource "aws_security_group" "http-sg" {
     vpc_id      = aws_vpc.vpc.id
 
     ingress {
-        description = "from my internal ip range"
+        description = "port 80 from my internal ip range"
         from_port   = "80"
         to_port     = "80"
         protocol    = "tcp"
         cidr_blocks = [aws_vpc.vpc.cidr_block]
     }
     ingress {
-        description = "from my internal ip range"
+        description = "port 22 from my internal ip range"
         from_port   = "22"
         to_port     = "22"
         protocol    = "tcp"
         cidr_blocks = [aws_vpc.vpc.cidr_block]
     }
     egress {
+        description = "egress connection for web"
         from_port   = "0"
         to_port     = "0"
         protocol    = "-1"
@@ -92,16 +93,17 @@ resource "aws_security_group" "weblb-sg" {
 
     ingress {
         description = "from internet ip range"
-        from_port   = "80"
-        to_port     = "80"
+        from_port   = "443"
+        to_port     = "443"
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
     egress {
+        description = "egress connection for app lb"
         from_port   = "0"
         to_port     = "0"
         protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = [aws_vpc.vpc.cidr_block]
     }
     tags = {
         "Name" = "RGAProj-SG-Internet"
@@ -120,5 +122,12 @@ resource "aws_instance" "web" {
     tags = {
         Name = "RGAProj-Web-${count.index + 1}"
     }
+    metadata_options {
+        http_tokens = "required"
+    } 
+    root_block_device {
+        encrypted = true
+    }
+
     user_data = file("user_data/user_data.tpl")
 }

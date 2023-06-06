@@ -31,6 +31,7 @@ resource "aws_lb" "weblb-front" {
     subnets            = [for subnet in aws_subnet.vpc-private-subnet : subnet.id]
 
     enable_deletion_protection = false
+    drop_invalid_header_fields = true
 
     tags = {
         Environment = "front"
@@ -39,8 +40,8 @@ resource "aws_lb" "weblb-front" {
 
 resource "aws_lb_listener" "weblb-front-end" {
     load_balancer_arn = aws_lb.weblb-front.arn
-    port              = "80"
-    protocol          = "HTTP"
+    port              = "443"
+    protocol          = "HTTPS"
 
     default_action {
         type             = "forward"
