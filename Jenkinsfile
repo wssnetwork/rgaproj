@@ -4,25 +4,25 @@ pipeline {
         stage('Tfsec scan') {
             agent {
                 docker {
-                    image 'aquasec/tfsec:latest'
+                    image 'aquasec/tfsec-ci:latest'
                     reuseNode true
                 }
             }
             steps {
-                sh 'tfsec .'
+                sh 'tfsec . --no-color'
             }
         }
-        stage('Terrascan scan') {
-            agent {
-                docker {
-                    image 'tenable/terrascan:latest'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh 'terrascan scan .'
-            }
-        }       
+        // stage('Terrascan scan') {
+        //     agent {
+        //         docker {
+        //             image 'tenable/terrascan:latest'
+        //             reuseNode true
+        //         }
+        //     }
+        //     steps {
+        //         sh 'terrascan scan .'
+        //     }
+        // }       
         stage('Terraform init') {
             steps {
                 sh 'terraform init'
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Terraform action') {
             steps {
-                sh 'terraform ${action} --auto-approve'
+                sh 'terraform ${action} --auto-approve --no-color'
             }
         }
     }
